@@ -156,9 +156,9 @@ def main():
             driver.implicitly_wait(60)
 
             if sys.argv[1] == "notify":
-                fetch_jobs(driver, max_time_window)
-            if sys.argv[1] == "search":
                 notify(notify_window)
+            if sys.argv[1] == "search":
+                fetch_jobs(driver, max_time_window)
         else:
             logging.error("missing command")
     finally:
