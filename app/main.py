@@ -11,6 +11,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 from .notifications.email import EmailNotifier
+from .config import load_blacklist
 
 Job = namedtuple('Job', 'company title contract location href timestamp')
 
@@ -28,14 +29,13 @@ START_TS=int(datetime.now().timestamp())
 URL_PATTERN="https://www.welcometothejungle.com/fr/jobs?refinementList%5Bcontract_type_names.fr%5D%5B%5D=CDD%20%2F%20Temporaire&refinementList%5Bcontract_type_names.fr%5D%5B%5D=CDI&refinementList%5Borganization.size.fr%5D%5B%5D=%3C%2015%20salari%C3%A9s&refinementList%5Borganization.size.fr%5D%5B%5D=Entre%2015%20et%2050%20salari%C3%A9s&refinementList%5Borganization.size.fr%5D%5B%5D=Entre%2050%20et%20250%20salari%C3%A9s&page={}"
 
 
-KEYWORD_BLACKLIST = [ "devops","sre", "fullstack", "react", "javascript", "backend", "engineer", "ingénieur", "Juriste", "Automaticien", "Technicien", "Office Manager", "agronome", "lead dev", "Développeur(se)", "Développeur", "Comptable", "finance" ]
-
 def can_renotify(notify_ts: int):
     # TODO: when should we renotify ?
     return False
 
 def filter_jobs(jobs):
     filtered_jobs = []
+    keyword_blacklist = load_blacklist()
     for job in jobs:
         excluded = False
         for word in KEYWORD_BLACKLIST:
