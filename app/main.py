@@ -1,5 +1,6 @@
 import logging
 import re
+import os
 import sys
 import time
 
@@ -129,7 +130,7 @@ def fetch_jobs(driver, max_time_window: int):
 def main():
     # For how far in the past we scroll the website
     #max_time_window=86400 # 24h
-    max_time_window=3600 # 24h
+    max_time_window = int(os.getenv("MAX_TIME_WINDOW_S", 3600)) # By default 1h
     # After how long an offer that has been reposted will be re notified
     renotify_window=604800 # 1 week
     notify_window=86400 # 24h
