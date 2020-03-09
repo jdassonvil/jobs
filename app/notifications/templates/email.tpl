@@ -6,7 +6,7 @@
       You should check this new job offers I've found:
       <ul>
       {% for job in jobs %}
-      <li><a href="{{ job.href }}">{{ job.title }}</a></li>
+      <li><a href="{{ job.href }}">{{ job.company }} - {{ job.title }}</a></li>
       {% endfor %}
       </ul>
 
