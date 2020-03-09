@@ -52,7 +52,7 @@ class EmailNotifier:
 
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
             server.login(email, self.password)
-            server.sendmail(sender_email, receiver_email, message.as_string())
+            server.sendmail(sender_email, self.receiver, message.as_string())
 
         logging.INFO("email sent to {}".format(self.receiver))
 
