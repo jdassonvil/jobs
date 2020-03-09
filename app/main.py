@@ -32,7 +32,7 @@ def can_renotify(notify_ts: int):
 
 def filter_jobs(jobs):
     filtered_jobs = []
-    blacklist = [ "devops", "sre", "fullstack", "react", "javascript", "backend", "engineer", "ingénieur", "Juriste"]
+    blacklist = [ "devops", "sre", "fullstack", "react", "javascript", "backend", "engineer", "ingénieur", "Juriste", "Automaticien", "Technicien", "Office Manager", "agronome", "lead dev", "Développeur(se)", "Développeur", "Comptable", "finance" ]
     for job in jobs:
         excluded = False
         for word in blacklist:
