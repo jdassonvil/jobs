@@ -107,11 +107,15 @@ def ingest(job: Job):
     client = MongoClient('localhost', 27017)
     jobs_collection = client.jobs.jobs
     doc = jobs_collection.find_one({"company": job.company, "title": job.title})
+    count_new = 0
     if doc is None:
         jobs_collection.insert_one(job._asdict())
         logging.debug("{} is new".format(job.title))
+        count_new = count_new + 1
     else:
         logging.debug("{} already exist".format(job.title))
+
+    logging.info("{} new jobs found".format(count_new))
 
 def fetch_jobs(driver, max_time_window: int):
     last_ts = START_TS
