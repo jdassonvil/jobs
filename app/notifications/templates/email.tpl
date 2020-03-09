@@ -4,7 +4,7 @@
              How are you?<br>
 
       You should check this new job offers I've found: <br >
-
+      <br >
       {% for company, jobs in companies.items() %}
       <b>{{ company }}</b>
       <ul>
