@@ -41,4 +41,4 @@ ADD app /opt/app
 
 WORKDIR /opt
 
-CMD [ "python3", "-m", "main.app" ]
+CMD [ "python3", "-m", "app.main" ]
