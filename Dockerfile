@@ -43,4 +43,4 @@ ENV CONFIG_DIR /etc/jobs
 
 WORKDIR /opt
 
-CMD [ "python3", "-m", "app.main" ]
+ENTRYPOINT [ "python3", "-m", "app.main" ]
