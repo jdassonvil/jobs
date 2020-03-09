@@ -20,6 +20,8 @@ LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 SECONDES_REGEX = re.compile('il y a ([0-9]{1,2}) seconde[s]?')
 MINUTES_REGEX = re.compile('il y a ([0-9]{1,2}) minute[s]?')
 HOURS_REGEX = re.compile('il y a ([0-9]{1,2}) heure[s]?')
+DAYS_REGEX = re.compile('il y a ([0-9]{1,2}) jour[s]?')
+
 JOB_URL_REGEX = re.compile('(.+)\/companies\/(.+)\/jobs\/(.+)')
 START_TS=int(datetime.now().timestamp())
 
@@ -60,6 +62,9 @@ def compute_job_ts(time_text):
     elif HOURS_REGEX.match(time_text):
         m = HOURS_REGEX.match(time_text)
         minutes_ago = int(m.group(1)) * 60 * 60
+    elif DAYS_REGEX.match(time_text):
+        m = HOURS_REGEX.match(time_text)
+        minutes_ago = int(m.group(1)) * 24 * 60 * 60
     else:
         logging.warning("Date not extracted: {}".format(time_text))
     if minutes_ago:
