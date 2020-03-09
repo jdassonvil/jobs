@@ -90,7 +90,7 @@ def notify(notify_window: int):
         job_updates.append(job)
         jobs_collection.update_one({ "_id": job["_id"]}, {"$set": {"notify_ts": START_TS}})
 
-    send_email(job_updates)
+    notifier.send(job_updates)
 
 def ingest(job: Job):
     client = MongoClient()
