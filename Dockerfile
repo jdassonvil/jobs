@@ -36,8 +36,10 @@ RUN ln -s /usr/bin/geckodriver /usr/bin/chromium-browser \
 
 ADD requirements.txt /tmp
 RUN pip3 install -r /tmp/requirements.txt
-RUN mkdir /opt/app 
+RUN mkdir /opt/app /etc/jobs
 ADD app /opt/app
+ADD BLACKLIST /etc/jobs/BLACKLIST
+ENV CONFIG_DIR /etc/jobs
 
 WORKDIR /opt
 
