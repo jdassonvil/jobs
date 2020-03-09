@@ -38,7 +38,7 @@ def filter_jobs(jobs):
     keyword_blacklist = load_blacklist()
     for job in jobs:
         excluded = False
-        for word in KEYWORD_BLACKLIST:
+        for word in keyword_blacklist:
             if word in job['title'].lower():
                 excluded = True
                 continue
