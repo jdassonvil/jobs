@@ -41,7 +41,7 @@ class EmailNotifier:
         message["Subject"] = "Jobs en vue !"
         message["From"] = sender_email
         message["To"] = self.receiver
-        message["Cc"] = "dassonville.jerome@gmail.com"
+        message["CC"] = "dassonville.jerome@gmail.com"
 
         plain = """\
     Subject: Hi there
