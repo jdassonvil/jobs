@@ -9,7 +9,7 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-from .notifications.email import send_email
+from .notifications.email import EmailNotifier
 
 Job = namedtuple('Job', 'company title contract location href timestamp')
 
@@ -73,6 +73,7 @@ def extract_href(c):
     return ""
 
 def notify(notify_window: int):
+    notifier = EmailNotifier(os.getenv("EMAIL_PASSWORD"), os.getenv("EMAIL_RECEIVER"))
     client = MongoClient()
     client = MongoClient('localhost', 27017)
     jobs_collection = client.jobs.jobs
