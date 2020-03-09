@@ -4,6 +4,7 @@ import os
 import smtplib
 import ssl
 
+from collections import import defaultdict
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -20,6 +21,13 @@ class EmailNotifier:
 
         self.receiver = receiver
         self.password = password
+
+    def _to_companies_map(self, jobs):
+        companies = defaultdict(list)
+        for job in jobs:
+            companies[jobs['company'].append(job)
+
+        return companies
 
     def send(self, jobs):
         port = 465  # For SSL
@@ -43,7 +51,7 @@ class EmailNotifier:
         )
 
         template = env.get_template('email.tpl')
-        html = template.render(jobs=jobs)
+        html = template.render(companies=self._to_companies_map(jobs))
 
         part1 = MIMEText(plain, "plain")
         part2 = MIMEText(html, "html")
