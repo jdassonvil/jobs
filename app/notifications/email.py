@@ -54,5 +54,5 @@ class EmailNotifier:
             server.login(email, self.password)
             server.sendmail(sender_email, self.receiver, message.as_string())
 
-        logging.INFO("email sent to {}".format(self.receiver))
+        logging.info("email sent to {}".format(self.receiver))
 
