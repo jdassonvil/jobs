@@ -64,8 +64,12 @@ def compute_job_ts(time_text):
         m = HOURS_REGEX.match(time_text)
         minutes_ago = int(m.group(1)) * 60 * 60
     elif DAYS_REGEX.match(time_text):
-        m = HOURS_REGEX.match(time_text)
+        m = DAYS_REGEX.match(time_text)
         minutes_ago = int(m.group(1)) * 24 * 60 * 60
+    elif time_text == "hier":
+        minutes_ago = 86400
+    elif time_text == "avant-hier":
+        minutes_ago = 172800
     else:
         logging.warning("Date not extracted: {}".format(time_text))
     if minutes_ago:
