@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mongo:
+
+  runner:
+    container_name: runner
+    image: runtime:latest
+    network: default-network
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+
+  networks:
+    default-network:
+

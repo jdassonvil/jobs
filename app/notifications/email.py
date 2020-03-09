@@ -7,6 +7,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
+#RECEIVER_EMAIL = "mathilde.canales@gmail.com"
+RECEIVER_EMAIL = "dassonville.jerome@gmail.com"
 
 def send_email(jobs):
     port = 465  # For SSL
@@ -16,7 +18,7 @@ def send_email(jobs):
     # Create a secure SSL context
     context = ssl.create_default_context()
     sender_email = email
-    receiver_email = "mathilde.canales@gmail.com"
+    receiver_email = RECEIVER_EMAIL
     message = MIMEMultipart("alternative")
     message["Subject"] = "Jobs en vue !"
     message["From"] = sender_email

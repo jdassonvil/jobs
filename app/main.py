@@ -17,6 +17,31 @@ HOURS_REGEX = re.compile('il y a ([0-9]{1,2}) heure[s]?')
 JOB_URL_REGEX = re.compile('(.+)\/companies\/(.+)\/jobs\/(.+)')
 START_TS=int(datetime.now().timestamp())
 
+URL_PATTERN="https://www.welcometothejungle.com/fr/jobs?refinementList%5Bcontract_type_names.fr%5D%5B%5D=CDD%20%2F%20Temporaire&refinementList%5Bcontract_type_names.fr%5D%5B%5D=CDI&refinementList%5Borganization.size.fr%5D%5B%5D=%3C%2015%20salari%C3%A9s&refinementList%5Borganization.size.fr%5D%5B%5D=Entre%2015%20et%2050%20salari%C3%A9s&refinementList%5Borganization.size.fr%5D%5B%5D=Entre%2050%20et%20250%20salari%C3%A9s&page={}"
+
+
+def can_renotify(notify_ts: int):
+    # TODO: when should we renotify ?
+    return False
+
+def filter_jobs(jobs):
+    filtered_jobs = []
+    blacklist = [ "devops", "sre", "fullstack", "react", "javascript", "backend", "engineer", "ingénieur", "Juriste"]
+    for job in jobs:
+        excluded = False
+        for word in blacklist:
+            if word in job['title'].lower():
+                excluded = True
+                continue
+        if job['contract'].lower() == "stage":
+            excluded = True
+        if 'notify_ts' in job and not can_renotify(job['notify_ts']):
+            excluded = True
+        if not excluded:
+            filtered_jobs.append(job)
+    return filtered_jobs
+
+
 def compute_job_ts(time_text):
     minutes_ago = None
     ts = None
@@ -46,8 +71,13 @@ def notify(notify_window: int):
     jobs_collection = client.jobs.jobs
 
     job_updates = []
+    jobs = filter_jobs(jobs_collection.find({ "timestamp": { "$gt": START_TS - notify_window }}))
 
-    for job in jobs_collection.find({ "timestamp": { "$gt": START_TS - notify_window }}):
+    if len(jobs) == 0:
+        print("No new job offers")
+        return
+
+    for job in jobs:
         job_updates.append(job)
         jobs_collection.update_one({ "_id": job["_id"]}, {"$set": {"notify_ts": START_TS}})
 
@@ -68,8 +98,9 @@ def fetch_jobs(driver, max_time_window: int):
     last_ts = START_TS
     page = 1
     while START_TS - last_ts < max_time_window: #other conditions ?
-        driver.get("https://www.welcometothejungle.com/fr/jobs?page={}".format(page))
-        print("Looking at https://www.welcometothejungle.com/fr/jobs?page={}".format(page))
+        url=URL_PATTERN.format(page)
+        driver.get(url)
+        print(url)
         companies=driver.find_elements_by_tag_name("article")
         page = page + 1
 
