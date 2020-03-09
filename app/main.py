@@ -16,8 +16,8 @@ Job = namedtuple('Job', 'company title contract location href timestamp')
 
 LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 
-SECONDES_REGEX = re.compile('il y a ([0-9]{1,2}) secondes')
-MINUTES_REGEX = re.compile('il y a ([0-9]{1,2}) minutes')
+SECONDES_REGEX = re.compile('il y a ([0-9]{1,2}) seconde[s]?')
+MINUTES_REGEX = re.compile('il y a ([0-9]{1,2}) minute[s]?')
 HOURS_REGEX = re.compile('il y a ([0-9]{1,2}) heure[s]?')
 JOB_URL_REGEX = re.compile('(.+)\/companies\/(.+)\/jobs\/(.+)')
 START_TS=int(datetime.now().timestamp())
@@ -60,7 +60,7 @@ def compute_job_ts(time_text):
         m = HOURS_REGEX.match(time_text)
         minutes_ago = int(m.group(1)) * 60 * 60
     else:
-        logging.warn("Date not extracted: {}".format(time_text))
+        logging.warning("Date not extracted: {}".format(time_text))
     if minutes_ago:
         ts = int(START_TS) - minutes_ago
     return ts
@@ -124,7 +124,7 @@ def fetch_jobs(driver, max_time_window: int):
                     if job.timestamp < last_ts:
                         last_ts = job.timestamp
             else:
-                logging.warn("Missing fields in job offer")
+                logging.warning("Missing fields in job offer")
 
 def main():
     # For how far in the past we scroll the website

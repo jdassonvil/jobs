@@ -38,3 +38,7 @@ ADD requirements.txt /tmp
 RUN pip3 install -r /tmp/requirements.txt
 RUN mkdir /opt/app 
 ADD app /opt/app
+
+WORKDIR /opt
+
+CMD [ "python3", "-m", "main.app" ]

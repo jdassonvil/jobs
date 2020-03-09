@@ -12,14 +12,14 @@ ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 class EmailNotifier:
 
     def __init__(self, password, receiver):
-       if not password or password == "":
-           raise Exception("Email password undefined")
-        self.password = password
+        if not password or password == "":
+            raise Exception("Email password undefined")
 
-       if not receiver or receiver == "":
-           raise Exception("Receiver email undefined")
+        if not receiver or receiver == "":
+            raise Exception("Receiver email undefined")
+
         self.receiver = receiver
-
+        self.password = password
 
     def send(self, jobs):
         port = 465  # For SSL
@@ -28,9 +28,9 @@ class EmailNotifier:
 
         # Create a secure SSL context
         context = ssl.create_default_context()
-        sender_email = email
+        sender_email = self.receiver
         message = MIMEMultipart("alternative")
-        message["Subject"] = "Jobs en vue !" EmailNotifier(
+        message["Subject"] = "Jobs en vue !"
         message["From"] = sender_email
         message["To"] = self.receiver
 
@@ -51,7 +51,7 @@ class EmailNotifier:
         message.attach(part2)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-            server.login(email, self.email_password)
+            server.login(email, self.password)
             server.sendmail(sender_email, receiver_email, message.as_string())
 
         logging.INFO("email sent to {}".format(self.receiver))
