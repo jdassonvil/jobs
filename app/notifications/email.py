@@ -4,7 +4,7 @@ import os
 import smtplib
 import ssl
 
-from collections import import defaultdict
+from collections import defaultdict
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
