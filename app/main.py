@@ -116,7 +116,7 @@ def ingest(job: Job):
 def fetch_jobs(driver, max_time_window: int):
     last_ts = START_TS
     page = 1
-    while START_TS - last_ts < max_time_window: #other conditions ?
+    while START_TS - last_ts <= max_time_window: #other conditions ?
         url=URL_PATTERN.format(page)
         logging.info("Looking at {}".format(url))
         driver.get(url)
@@ -138,15 +138,16 @@ def fetch_jobs(driver, max_time_window: int):
                 logging.warning("Missing fields in job offer")
 
 def main():
+    logging.basicConfig(format=LOG_FORMAT, level=logging.INFO)
     # For how far in the past we scroll the website
     #max_time_window=86400 # 24h
     max_time_window = int(os.getenv("MAX_TIME_WINDOW_S", 3600)) # By default 1h
+    logging.info("Max time window: {}".format(max_time_window))
     # After how long an offer that has been reposted will be re notified
     renotify_window=604800 # 1 week
     notify_window=86400 # 24h
     driver = webdriver.Chrome()
     driver.implicitly_wait(60)
-    logging.basicConfig(format=LOG_FORMAT, level=logging.INFO)
 
     try:
         fetch_jobs(driver, max_time_window)
