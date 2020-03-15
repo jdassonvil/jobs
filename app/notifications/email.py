@@ -41,7 +41,6 @@ class EmailNotifier:
         message["Subject"] = "Jobs en vue !"
         message["From"] = sender_email
         message["To"] = self.receiver
-        message["CC"] = "dassonville.jerome@gmail.com"
 
         plain = """\
     Subject: Hi there
@@ -60,8 +59,9 @@ class EmailNotifier:
         message.attach(part2)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-            server.login(email, self.password)
-            server.sendmail(sender_email, self.receiver, message.as_string())
+            for recevier in [ "dassonville.jerome@gmail.com", self.receiver ]:
+                server.login(email, self.password)
+                server.sendmail(sender_email, receiver, message.as_string())
 
         logging.info("email sent to {}".format(self.receiver))
 
