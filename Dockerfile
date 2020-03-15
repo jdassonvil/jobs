@@ -34,6 +34,9 @@ RUN ln -s /usr/bin/geckodriver /usr/bin/chromium-browser \
     && chmod 777 /usr/bin/geckodriver \
     && chmod 777 /usr/bin/chromium-browser
 
+
+LABEL "com.datadoghq.ad.logs"='[{"source": "python", "service": "jobsearch", "sourcecategory": "sourcecode"}]'
+
 ADD requirements.txt /tmp
 RUN pip3 install -r /tmp/requirements.txt
 RUN mkdir /opt/app /etc/jobs

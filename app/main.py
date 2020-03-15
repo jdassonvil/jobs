@@ -13,6 +13,7 @@ from .notifications.email import EmailNotifier
 from .config import load_blacklist
 from .model import Job
 from .dd import Stats
+from .log import init_logger
 
 LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 
@@ -142,7 +143,7 @@ def fetch_jobs(driver, max_time_window: int):
                 logging.warning("Missing fields in job offer")
 
 def main():
-    logging.basicConfig(format=LOG_FORMAT, level=logging.INFO)
+    init_logger()
     # For how far in the past we scroll the website
     #max_time_window=86400 # 24h
     max_time_window = int(os.getenv("MAX_TIME_WINDOW_S", 3600)) # By default 1h
