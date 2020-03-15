@@ -109,12 +109,13 @@ def ingest(job: Job):
     count_new = 0
     if doc is None:
         jobs_collection.insert_one(job._asdict())
-        Stats.record_new_job(job)
         logging.info("{} is new".format(job.title))
+        Stats.record_new_job(job)
         count_new = count_new + 1
     else:
-        Stats.record_old_job(job)
         logging.debug("{} already exist".format(job.title))
+        if doc["timestamp"] < START_TS - (12 * 60 * 60):
+            Stats.record_old_job(job)
 
 def fetch_jobs(driver, max_time_window: int):
     last_ts = START_TS
