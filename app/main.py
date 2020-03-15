@@ -4,7 +4,6 @@ import os
 import sys
 import time
 
-from collections import namedtuple
 from pymongo import MongoClient
 from datetime import datetime
 from selenium import webdriver
@@ -12,9 +11,8 @@ from selenium.webdriver.common.keys import Keys
 
 from .notifications.email import EmailNotifier
 from .config import load_blacklist
-
-Job = namedtuple('Job', 'company title contract location href timestamp timetext')
-
+from .model import Job
+from .dd import Stats
 
 LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 
@@ -98,6 +96,7 @@ def notify(notify_window: int):
 
     for job in jobs:
         job_updates.append(job)
+        Stats.record_notification(job)
         jobs_collection.update_one({ "_id": job["_id"]}, {"$set": {"notify_ts": START_TS}})
 
     notifier.send(job_updates)
@@ -110,9 +109,11 @@ def ingest(job: Job):
     count_new = 0
     if doc is None:
         jobs_collection.insert_one(job._asdict())
+        Stats.record_new_job(job)
         logging.info("{} is new".format(job.title))
         count_new = count_new + 1
     else:
+        Stats.record_old_job(job)
         logging.debug("{} already exist".format(job.title))
 
 def fetch_jobs(driver, max_time_window: int):
