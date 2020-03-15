@@ -149,17 +149,19 @@ def main():
     # After how long an offer that has been reposted will be re notified
     renotify_window=604800 # 1 week
     notify_window=86400 # 24h
-    try:
-        if len(sys.argv) > 1:
-            driver = webdriver.Chrome()
-            driver.implicitly_wait(60)
 
-            if sys.argv[1] == "notify":
-                notify(notify_window)
-            if sys.argv[1] == "search":
-                fetch_jobs(driver, max_time_window)
-        else:
-            logging.error("missing command")
+    if len(sys.argv) < 2:
+        logging.error("missing command")
+        sys.exit(1)
+
+    try:
+        driver = webdriver.Chrome()
+        driver.implicitly_wait(60)
+
+        if sys.argv[1] == "notify":
+            notify(notify_window)
+        if sys.argv[1] == "search":
+            fetch_jobs(driver, max_time_window)
     finally:
         driver.close()
 
