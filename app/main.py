@@ -116,7 +116,7 @@ def ingest(job: Job):
     else:
         logging.debug("{} already exist".format(job.title))
         last_ts = doc["last_ts"] if "last_ts" in doc else doc["timestamp"]
-        jobs_collection.update_one({ "_id": job["_id"]}, {"$set": {"last_ts": START_TS}})
+        jobs_collection.update_one({ "_id": doc["_id"]}, {"$set": {"last_ts": START_TS}})
         # It's a repost if the same job come back more than 12h after its first occurence
         if last_ts < START_TS - (12 * 60 * 60):
             logging.info("{} has been reposted (first time: {}, last time: {})".format(job.title, job.timestamp, last_ts))
