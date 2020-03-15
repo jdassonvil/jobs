@@ -119,7 +119,7 @@ def ingest(job: Job):
         jobs_collection.update_one({ "_id": job["_id"]}, {"$set": {"last_ts": START_TS}})
         # It's a repost if the same job come back more than 12h after its first occurence
         if last_ts < START_TS - (12 * 60 * 60):
-            logging.info("{} has been reposted (first time: {}, last time: {})".format(job.title, job.timestamp, last_ts)
+            logging.info("{} has been reposted (first time: {}, last time: {})".format(job.title, job.timestamp, last_ts))
             Stats.record_old_job(job)
 
 def fetch_jobs(driver, max_time_window: int):
