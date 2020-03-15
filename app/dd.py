@@ -17,7 +17,6 @@ class Stats:
 
     @staticmethod
     def record_old_job(job: Job):
-        print(datadog.statsd.__class__)
         datadog.statsd.increment('jobs.old', tags=Stats._build_tags(job))
 
     @staticmethod

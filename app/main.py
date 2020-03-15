@@ -163,9 +163,11 @@ def main():
             notify(notify_window)
         if sys.argv[1] == "search":
             fetch_jobs(driver, max_time_window)
+        # Make sure we the statsd buffer has been flushed
+        # TODO: figure out how to make this properly
+        time.sleep(10)
     finally:
         driver.close()
-        Stats.flush()
 
 if __name__ == "__main__":
    main()
