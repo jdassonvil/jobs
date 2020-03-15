@@ -27,3 +27,6 @@ class Stats:
     @staticmethod
     def record_notification(job: Job):
         datadog.statsd.increment('jobs.notified', tags=Stats._build_tags(job))
+
+    def flush():
+        datadog.statsd.close_buffer()

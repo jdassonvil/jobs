@@ -164,6 +164,7 @@ def main():
             fetch_jobs(driver, max_time_window)
     finally:
         driver.close()
+        Stats.flush()
 
 if __name__ == "__main__":
    main()
