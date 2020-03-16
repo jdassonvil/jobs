@@ -96,7 +96,7 @@ def notify(notify_window: int):
         return
 
     for doc in docs:
-        job = from_mongo_doc(job)
+        job = from_mongo_doc(doc)
         job_updates.append(job)
         Stats.record_notification(job)
         jobs_collection.update_one({ "_id": doc["_id"]}, {"$set": {"notify_ts": START_TS}})
