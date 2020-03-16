@@ -13,7 +13,7 @@ ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 class EmailNotifier:
 
-    def __init__(self, password: str, receiver: List[str]):
+    def __init__(self, password: str, receivers: List[str]):
         if not password or password == "":
             raise Exception("Email password undefined")
 
