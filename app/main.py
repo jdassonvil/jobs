@@ -91,7 +91,7 @@ def notify(notify_window: int):
     job_updates = []
     docs = filter_jobs(jobs_collection.find({ "timestamp": { "$gt": START_TS - notify_window }}))
 
-    if len(jobs) == 0:
+    if len(docs) == 0:
         logging.info("No new job offers")
         return
 
