@@ -16,6 +16,10 @@ class Stats:
         return ["company:{}".format(job.company), "location:{}".format(job.location)]
 
     @staticmethod
+    def record_view_job(job: Job):
+        datadog.statsd.increment('jobs.view', tags=Stats._build_tags(job))
+
+    @staticmethod
     def record_old_job(job: Job):
         datadog.statsd.increment('jobs.old', tags=Stats._build_tags(job))
 

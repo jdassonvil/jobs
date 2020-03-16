@@ -140,6 +140,7 @@ def fetch_jobs(driver, max_time_window: int):
             items=content.splitlines()
             if len(items) >= 5:
                 job=Job(items[0], items[1], items[2], items[3], href, compute_job_ts(items[4]), items[4])
+                Stats.record_view_job(job)
                 if job.timestamp is not None:
                     ingest(job)
                     if job.timestamp < last_ts:
