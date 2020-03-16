@@ -83,7 +83,7 @@ def extract_href(c):
     return ""
 
 def notify(notify_window: int):
-    notifier = EmailNotifier(os.getenv("EMAIL_PASSWORD"), os.getenv("EMAIL_RECEIVER"))
+    notifier = EmailNotifier(os.getenv("EMAIL_PASSWORD"), os.getenv("EMAIL_RECEIVER").split(","))
     client = MongoClient()
     client = MongoClient('localhost', 27017)
     jobs_collection = client.jobs.jobs
