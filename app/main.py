@@ -157,7 +157,7 @@ def main():
     #max_time_window=86400 # 24h
     max_time_window = int(os.getenv("MAX_TIME_WINDOW_S", 3600)) # By default 1h
     logging.info("Max time window: {}".format(max_time_window))
-    notify_window=int(os.getenv("NOTIFY_WINDOW",604800) # 1 week
+    notify_window=int(os.getenv("NOTIFY_WINDOW",604800)) # 1 week
 
     if len(sys.argv) < 2:
         logging.error("missing command")
