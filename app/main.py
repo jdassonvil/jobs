@@ -40,12 +40,16 @@ def filter_jobs(jobs):
         for word in keyword_blacklist:
             if word in job['title'].lower():
                 excluded = True
+                logging.debug("{} excluded: blacklist".format(job['title']))
                 continue
         if job['contract'].lower() == "stage":
             excluded = True
+            logging.debug("{} excluded: stage".format(job['title']))
         if 'notify_ts' in job and not can_renotify(job['notify_ts']):
+            logging.debug("{} excluded: already notified".format(job['title']))
             excluded = True
         if not excluded:
+            logging.debug("{} to notify".format(job['title']))
             filtered_jobs.append(job)
     return filtered_jobs
 
