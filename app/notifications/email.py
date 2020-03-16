@@ -17,7 +17,7 @@ class EmailNotifier:
         if not password or password == "":
             raise Exception("Email password undefined")
 
-        if not receiver or len(receiver) == 0:
+        if not receivers or len(receivers) == 0:
             raise Exception("Receiver(s) email undefined")
 
         self.receivers = receivers
