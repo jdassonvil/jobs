@@ -11,7 +11,7 @@ from selenium.webdriver.common.keys import Keys
 
 from .notifications.email import EmailNotifier
 from .config import load_blacklist
-from .model import Job
+from .model import Job, from_mongo_doc
 from .dd import Stats
 from .log import init_logger
 
@@ -89,16 +89,17 @@ def notify(notify_window: int):
     jobs_collection = client.jobs.jobs
 
     job_updates = []
-    jobs = filter_jobs(jobs_collection.find({ "timestamp": { "$gt": START_TS - notify_window }}))
+    docs = filter_jobs(jobs_collection.find({ "timestamp": { "$gt": START_TS - notify_window }}))
 
     if len(jobs) == 0:
         logging.info("No new job offers")
         return
 
-    for job in jobs:
+    for doc in docs:
+        job = from_mongo_doc(job)
         job_updates.append(job)
         Stats.record_notification(job)
-        jobs_collection.update_one({ "_id": job["_id"]}, {"$set": {"notify_ts": START_TS}})
+        jobs_collection.update_one({ "_id": doc["_id"]}, {"$set": {"notify_ts": START_TS}})
 
     notifier.send(job_updates)
 

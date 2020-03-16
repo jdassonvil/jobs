@@ -25,7 +25,7 @@ class EmailNotifier:
     def _to_companies_map(self, jobs):
         companies = defaultdict(list)
         for job in jobs:
-            companies[job['company']].append(job)
+            companies[job.company].append(job)
 
         return companies
 
