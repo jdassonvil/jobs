@@ -14,12 +14,13 @@ def _get_log_level():
         return logging.INFO
 
 def init_logger():
+    log_level = _get_log_level()
     logger = logging.getLogger()
-    logger.setLevel(_get_log_level())
+    logger.setLevel(log_level)
 
     formatter = jsonlogger.JsonFormatter(LOG_FORMAT)
     logHandler = logging.StreamHandler()
     logHandler.setFormatter(formatter)
-    logHandler.setLevel(logging.INFO)
+    logHandler.setLevel(log_level)
     logger.addHandler(logHandler)
-    logger.info("logger configured")
+    logger.info("logger configured in {}".format(log_level))
