@@ -163,19 +163,21 @@ def main():
         logging.error("missing command")
         sys.exit(1)
 
-    try:
-        driver = webdriver.Chrome()
-        driver.implicitly_wait(60)
+    if sys.argv[1] == "notify":
+        notify(notify_window)
 
-        if sys.argv[1] == "notify":
-            notify(notify_window)
-        if sys.argv[1] == "search":
+    if sys.argv[1] == "search":
+        try:
+            driver = webdriver.Chrome()
+            driver.implicitly_wait(60)
+
             fetch_jobs(driver, max_time_window)
-        # Make sure we the statsd buffer has been flushed
-        # TODO: figure out how to make this properly
-        time.sleep(10)
-    finally:
-        driver.close()
+            # Make sure we the statsd buffer has been flushed
+            # TODO: figure out how to make this properly
+        finally:
+            driver.close()
+
+    time.sleep(10)
 
 if __name__ == "__main__":
    main()
