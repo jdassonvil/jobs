@@ -175,7 +175,8 @@ def main():
             # Make sure we the statsd buffer has been flushed
             # TODO: figure out how to make this properly
         finally:
-            driver.close()
+            if driver is not None:
+                driver.close()
 
     time.sleep(10)
 
