@@ -21,6 +21,8 @@ SECONDES_REGEX = re.compile('^.*il y a ([0-9]{1,2}) seconde[s]?')
 MINUTES_REGEX = re.compile('^.*il y a ([0-9]{1,2}) minute[s]?')
 HOURS_REGEX = re.compile('^.*il y a ([0-9]{1,2}) heure[s]?')
 DAYS_REGEX = re.compile('^.*il y a ([0-9]{1,2}) jour[s]?')
+YESTERDAY_REGEX = re.compile('^.*hier')
+DAY_BEFORE_YESTERDAY_REGEX = re.compile('^.*avant-hier')
 
 JOB_URL_REGEX = re.compile('(.+)\/companies\/(.+)\/jobs\/(.+)')
 START_TS=int(datetime.now().timestamp())
@@ -69,9 +71,9 @@ def compute_job_ts(time_text):
     elif DAYS_REGEX.match(time_text):
         m = DAYS_REGEX.match(time_text)
         minutes_ago = int(m.group(1)) * 24 * 60 * 60
-    elif time_text == "hier":
+    elif YESTERDAY_REGEX.match(time_text):
         minutes_ago = 86400
-    elif time_text == "avant-hier":
+    elif DAY_BEFORE_YESTERDAY_REGEX.match(time_text):
         minutes_ago = 172800
     else:
         logging.warning("Date not extracted: {}".format(time_text))
