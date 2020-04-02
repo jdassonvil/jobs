@@ -17,10 +17,10 @@ from .log import init_logger
 
 LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 
-SECONDES_REGEX = re.compile('il y a ([0-9]{1,2}) seconde[s]?')
-MINUTES_REGEX = re.compile('il y a ([0-9]{1,2}) minute[s]?')
-HOURS_REGEX = re.compile('il y a ([0-9]{1,2}) heure[s]?')
-DAYS_REGEX = re.compile('il y a ([0-9]{1,2}) jour[s]?')
+SECONDES_REGEX = re.compile('^.*il y a ([0-9]{1,2}) seconde[s]?')
+MINUTES_REGEX = re.compile('^.*il y a ([0-9]{1,2}) minute[s]?')
+HOURS_REGEX = re.compile('^.*il y a ([0-9]{1,2}) heure[s]?')
+DAYS_REGEX = re.compile('^.*il y a ([0-9]{1,2}) jour[s]?')
 
 JOB_URL_REGEX = re.compile('(.+)\/companies\/(.+)\/jobs\/(.+)')
 START_TS=int(datetime.now().timestamp())
